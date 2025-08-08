@@ -1,6 +1,7 @@
 import requests
 from tkinter import *
 import tkinter as tk
+import re
 
 def gerar_escopo():
     cnpj = entrada_cnpj.get()  
@@ -25,7 +26,17 @@ def gerar_escopo():
             'uf': dados.get('uf', ''),
             'cnpj': dados.get('cnpj', '')
         }
-    print(f"{dados_empresarial['nome_empresarial']}")
+    
+    escopo = entrada_escopo.get("1.0",tk.END).strip()
+    chaves = re.findall(r"{(.*?)}",escopo)
+
+    for chave in chaves:
+        valor = dados_empresarial.get(chave,f"[{chave}, não encontrada]")
+        escopo = escopo.replace(f"{{{chave}}}", valor)
+
+    escopo_final.delete("1.0",tk.END)
+    escopo_final.insert(tk.END,escopo)
+
 janela = Tk()
 janela.title("Montador de escopo para contratos com CNPJ")
 janela.geometry("600x600")
@@ -45,7 +56,8 @@ entrada_escopo.grid(row=1, column=0, columnspan=2, padx=0, pady=0)
 escopo_feito = tk.Frame(janela)
 escopo_feito.pack(anchor="center")
 tk.Label(escopo_feito, text="Escopo completo com as informações: ", font=("Arial", 12)).grid(row=0, column=0, padx=0, pady=10, sticky="W")
-tk.Text(escopo_feito, width=60, height=10, font=("Arial", 12)).grid(row=1, column=0, columnspan=2, padx=0, pady=0)
+escopo_final = tk.Text(escopo_feito, width=60, height=10, font=("Arial", 12))
+escopo_final.grid(row=1, column=0, columnspan=2, padx=0, pady=0)
 
 
 
