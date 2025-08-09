@@ -85,12 +85,6 @@ pip install requests
 
 ---
 
-## 📸 Exemplo
-
-!\[exemplo da interface - substitua com um screenshot futuramente]
-
----
-
 ## 📄 Licença
 
 Este projeto é de uso livre para fins educacionais e profissionais. Sinta-se à vontade para modificar e reutilizar.
