@@ -3,6 +3,12 @@ from tkinter import *
 import tkinter as tk
 import re
 
+def copiar_texto():
+    texto = escopo_final.get("1.0",tk.END)
+    janela.clipboard_clear()
+    janela.clipboard_append(texto)
+    janela.update()
+
 def gerar_escopo():
     cnpj = entrada_cnpj.get()  
     remover = [".","/","-"]
@@ -52,6 +58,7 @@ dados_escopo.pack(anchor="center")
 tk.Label(dados_escopo, text="Formato do escopo: ", font=("Arial", 12)).grid(row=0, column=0, padx=0, pady=10, sticky="W")
 entrada_escopo = tk.Text(dados_escopo, width=60, height=10, font=("Arial", 12))
 entrada_escopo.grid(row=1, column=0, columnspan=2, padx=0, pady=0)
+entrada_escopo.bind("<Return>",lambda event:(gerar_escopo(),"break"))
 
 escopo_feito = tk.Frame(janela)
 escopo_feito.pack(anchor="center")
@@ -59,15 +66,11 @@ tk.Label(escopo_feito, text="Escopo completo com as informações: ", font=("Ari
 escopo_final = tk.Text(escopo_feito, width=60, height=10, font=("Arial", 12))
 escopo_final.grid(row=1, column=0, columnspan=2, padx=0, pady=0)
 
-
-
 btns = tk.Frame(janela)
 btns.pack(anchor="center", pady=10)
 btn_gerar = tk.Button(btns, text="Gerar Escopo", command=gerar_escopo)
 btn_gerar.pack(side="left", padx=5)
-
-
+btn_copiar = tk.Button(btns,text="Copiar", command=copiar_texto)
+btn_copiar.pack(side="left", padx=5)
 
 janela.mainloop()
-
-
